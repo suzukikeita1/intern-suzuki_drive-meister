@@ -11,13 +11,4 @@ import { HostListener } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
-  constructor(private spWindowHeightService: SpWindowHeightService) {
-    this.spWindowHeightService.setVhProperty();
-  }
-
-  @HostListener('window:resize')
-  onResize() {
-    this.spWindowHeightService.setVhProperty();
-  }
-}
+export class HomeComponent {}
