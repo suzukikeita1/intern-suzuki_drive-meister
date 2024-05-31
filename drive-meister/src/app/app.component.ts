@@ -1,6 +1,5 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SpWindowHeightService } from '../sp-window-height.service';
 
 @Component({
   selector: 'app-root',
