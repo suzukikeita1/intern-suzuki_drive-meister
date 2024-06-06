@@ -1,0 +1,31 @@
+<mat-card *ngIf="cardType === 'work'" class="work">
+    <mat-card-content>
+        <div class="title">
+            <p class="title_text">問題を解く</p>
+        </div>
+        <div class="buttons">
+            <button mat-raised-button class="button-circle" color="none" routerLink="#">
+                <p class="button_text">仮免</p>
+            </button>
+            <button mat-raised-button class="button-circle" color="none" routerLink="#">
+                <p class="button_text">本免</p>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="cardType === 'review'" class="review">
+    <mat-card-content>
+        <div class="title">
+            <p class="title_text">復習</p>
+        </div>
+        <div class="buttons">
+            <button mat-raised-button class="button-circle" color="none" routerLink="#">
+                <p class="button_text">仮免</p>
+            </button>
+            <button mat-raised-button class="button-circle" color="none" routerLink="#">
+                <p class="button_text">本免</p>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>

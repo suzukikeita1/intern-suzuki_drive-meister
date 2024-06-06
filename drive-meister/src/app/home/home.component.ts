@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { HomeAnswerComponent } from '../home-answer/home-answer.component';
-import { HomeReviewComponent } from '../home-review/home-review.component';
+import { HomeCardComponent } from '../home-card/home-card.component';
 import { HomeHeaderComponent } from '../home-header/home-header.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,8 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     MatCardModule,
     MatButtonModule,
-    HomeAnswerComponent,
-    HomeReviewComponent,
+    HomeCardComponent,
     HomeHeaderComponent,
   ],
   templateUrl: './home.component.html',
