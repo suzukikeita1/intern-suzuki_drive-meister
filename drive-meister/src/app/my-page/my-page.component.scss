@@ -7,7 +7,10 @@ app-home-card {
   filter: blur(5px);
 }
 mat-card {
-  border: 4px #92afe8;
+  border: 3px solid #92afe8;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
   width: 200px;
   height: 240px;
   position: fixed;
@@ -25,11 +28,12 @@ mat-card {
     }
 
     .upper {
-      margin: 0px auto 60px auto;
+      margin: 0px auto 55px auto;
 
       .upper_text {
         color: #92afe8;
         font-size: 24px;
+        margin-bottom: 0px;
       }
     }
   }
