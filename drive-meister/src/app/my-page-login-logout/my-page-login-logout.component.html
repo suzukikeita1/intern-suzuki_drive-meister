@@ -1,0 +1,8 @@
+<div class="button_cover">
+    <button *ngIf="isButtonVisible" mat-flat-button class="login-button" routerLink="#">
+        <p class="button_text">ログイン</p>
+    </button>
+    <button *ngIf="!isButtonVisible" mat-flat-button class="logout-button" routerLink="#">
+        <p class="button_text">ログアウト</p>
+    </button>
+</div>

@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&family=Poetsen+One&family=Zen+Maru+Gothic:wght@400;500;700&display=swap");
+
+.button_cover {
+  button {
+    border-radius: 20px;
+    width: 130px;
+    height: 45px;
+  }
+
+  .login-button {
+    background-color: #92afe8;
+  }
+
+  .logout-button {
+    background-color: #e89292;
+  }
+
+  .button_text {
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    margin-bottom: 0px;
+  }
+}
