@@ -1,0 +1,12 @@
+<div class="guide_content">
+    <div class="guide_slider">
+        <ngx-slick-carousel class="carousel" (afterChange)="onSlideChange($event)" [config]="{dots: true}">
+            <div ngxSlickItem *ngFor="let slide of slides; let i = index" class="slide">
+                <img src="{{slide.img}}" alt="">
+            </div>
+        </ngx-slick-carousel>
+    </div>
+    <div class="guide_description">
+        <p>{{ getCurrentSlideDescription() }}</p>
+    </div>
+</div>
