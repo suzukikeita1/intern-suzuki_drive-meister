@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&family=Poetsen+One&family=Zen+Maru+Gothic:wght@400;500;700&display=swap");
+
+.guide_content {
+  width: 100%;
+  margin: 30px auto 0px auto;
+
+  .guide_slider {
+    width: 270px;
+    height: 480px;
+    margin: 0 auto;
+    background-color: #fff;
+    .carousel {
+      margin: 0 auto;
+      padding-top: 10px;
+      width: 250px;
+    }
+  }
+
+  .guide_description {
+    width: 270px;
+    height: 60px;
+    margin: 30px auto 0px auto;
+    background-color: #fff;
+    p {
+      padding: 10px;
+      margin: 0 auto;
+      font-family: "Zen Maru Gothic", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: black;
+    }
+  }
+}
