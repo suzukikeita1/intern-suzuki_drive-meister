@@ -1,8 +1,0 @@
-<div class="email">
-    <p class="email_text">メールアドレス</p>
-    <mat-form-field>
-        <mat-label>メールアドレスを入力</mat-label>
-        <input matInput placeholder="aaa@gmail.com" [formControl]="email" (blur)="updateErrorMessage()" required>
-        <mat-error *ngIf="email.invalid">{{emailerrorMessage}}</mat-error>
-    </mat-form-field>
-</div>
