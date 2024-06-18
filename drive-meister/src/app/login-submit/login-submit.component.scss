@@ -1,0 +1,21 @@
+.submit {
+  width: 100%;
+  margin: 30px auto 30px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    margin: 0 auto;
+    border-radius: 20px;
+    width: 130px;
+    height: 45px;
+    .button_text {
+      font-family: "Zen Maru Gothic", sans-serif;
+      color: #92afe8;
+      font-size: 24px;
+      text-align: center;
+      margin: 0 auto;
+      font-weight: 700;
+    }
+  }
+}
