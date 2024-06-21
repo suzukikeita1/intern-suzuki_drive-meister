@@ -1,0 +1,39 @@
+<mat-card>
+    <mat-card-content>
+        <div class="login_container">
+            <div class="login_header">
+                <p class="login_header_text">ログイン</p>
+            </div>
+            <div class="login_form">
+                <div class="email">
+                    <p class="email_text">メールアドレス</p>
+                    <mat-form-field>
+                        <mat-label>メールアドレスを入力</mat-label>
+                        <input matInput placeholder="aaa@gmail.com" [formControl]="email" (blur)="updateErrorMessages()"
+                            required>
+                        <mat-error *ngIf="email.invalid">{{emailerrorMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="password">
+                    <p class="password_text">パスワード</p>
+                    <mat-form-field>
+                        <mat-label>パスワードを入力</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="password"
+                            (blur)="updateErrorMessages()" required>
+                        <mat-error *ngIf="password.invalid">{{passworderrorMessage}}</mat-error>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="submit">
+            <button mat-raised-button>
+                <p class="button_text">保存</p>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>
+<app-return-home-button></app-return-home-button>
