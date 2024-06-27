@@ -1,0 +1,28 @@
+<ng-container>
+    <mat-card *ngIf="cards.length > currentCardIndex" [@swipeOut]="animationState">
+        <div [class.bg-correct]="animationState === 'right'">
+            <div class="arrow">
+                <span class="dli-arrow-right"></span>
+            </div>
+        </div>
+        <div [class.bg-incorrect]="animationState === 'left'">
+            <div class="close">
+                <span class="dli-close"></span>
+            </div>
+            <div class="arrow">
+                <span class="dli-arrow-left"></span>
+            </div>
+        </div>
+        <mat-card-title>
+            <div class="quiz_image">
+                {{ cards[currentCardIndex].quiz_img }}
+            </div>
+        </mat-card-title>
+        <mat-card-content>
+            <div class="quiz_text">
+                {{ cards[currentCardIndex].text }}
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <app-redirect-result-button></app-redirect-result-button>
+</ng-container>
