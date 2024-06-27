@@ -4,6 +4,7 @@ import { MyPageComponent } from './my-page/my-page.component';
 import { GuideComponent } from './guide/guide.component';
 import { LoginComponent } from './login/login.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { JudgeTrueFalseComponent } from './judge-true-false/judge-true-false.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -12,4 +13,5 @@ export const routes: Routes = [
   { path: 'guide', component: GuideComponent },
   { path: 'my-page/login', component: LoginComponent },
   { path: 'quiz', component: QuizComponent },
+  { path: 'judge-true-false', component: JudgeTrueFalseComponent },
 ];

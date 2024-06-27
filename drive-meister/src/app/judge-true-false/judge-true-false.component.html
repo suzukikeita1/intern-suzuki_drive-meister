@@ -1,0 +1,41 @@
+<ng-container>
+    <mat-card *ngIf="cardData" [@swipeOut]="animationState">
+        <div [class.bg-next]="animationState === 'next'">
+            <div class="arrow">
+                <span class="dli-arrow-up"></span>
+            </div>
+            <p class="next_text">次の問題</p>
+        </div>
+        <!-- <div class="bg-next">
+            <div class="arrow">
+                <span class="dli-arrow-up"></span>
+            </div>
+            <p class="next_text">次の問題</p>
+        </div> -->
+        <div [class.bg-review]="animationState === 'review'">
+            <p class="review_text">復習に追加</p>
+            <div class="arrow">
+                <span class="dli-arrow-down"></span>
+            </div>
+        </div>
+        <!-- <div [class.bg-correct]>
+        </div>
+        <div [class.bg-incorrect]>
+        </div> -->
+        <mat-card-title>
+            <div class="quiz_image">
+                {{ cardData.quiz_img }}
+            </div>
+        </mat-card-title>
+        <mat-card-content>
+            <div class="quiz_text">
+                {{ cardData.text }}
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="explanation">
+        <div class="explanation_text">
+        </div>
+    </div>
+    <app-redirect-result-button></app-redirect-result-button>
+</ng-container>

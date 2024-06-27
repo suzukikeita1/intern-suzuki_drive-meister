@@ -4,10 +4,12 @@
             <p class="title_text">問題を解く</p>
         </div>
         <div class="buttons">
-            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz">
+            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
+                [queryParams]="{ type: 'provisional'}">
                 <p class="button_text">仮免</p>
             </button>
-            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz">
+            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
+                [queryParams]="{ type: 'drivers'}">
                 <p class="button_text">本免</p>
             </button>
         </div>
@@ -20,10 +22,12 @@
             <p class="title_text">復習</p>
         </div>
         <div class="buttons">
-            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz">
+            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
+                [queryParams]="{ type: 'provisional-review'}">
                 <p class="button_text">仮免</p>
             </button>
-            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz">
+            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
+                [queryParams]="{ type: 'drivers-review'}">
                 <p class="button_text">本免</p>
             </button>
         </div>
