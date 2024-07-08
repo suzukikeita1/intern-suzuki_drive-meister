@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&family=Poetsen+One&family=Zen+Maru+Gothic:wght@400;500;700&display=swap");
+
+mat-card {
+  width: calc(100% - 65px);
+  border-radius: 15px;
+  height: auto;
+  margin: 65px auto;
+
+  mat-card-title {
+    margin: 30px auto 0px auto;
+    text-align: center;
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #92afe8;
+  }
+  mat-card-content {
+    .answer_total {
+      margin: 90px auto 0px auto;
+      p {
+        font-family: "Zen Maru Gothic", sans-serif;
+        font-weight: 700;
+        font-size: 32px;
+        color: black;
+        text-align: center;
+      }
+    }
+    .correct_answer {
+      margin: 90px auto 30px auto;
+      p {
+        font-family: "Zen Maru Gothic", sans-serif;
+        font-weight: 700;
+        font-size: 48px;
+        color: #92afe8;
+        text-align: center;
+      }
+    }
+  }
+}
