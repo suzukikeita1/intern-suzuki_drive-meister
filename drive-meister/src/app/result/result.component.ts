@@ -20,6 +20,6 @@ import { RedirectResultButtonComponent } from '../redirect-result-button/redirec
 })
 export class ResultComponent {
   constructor() {}
-  answerTotal: string = '10';
-  correctTotal: string = '4';
+  answerTotal: number = 10;
+  correctTotal: number = 4;
 }

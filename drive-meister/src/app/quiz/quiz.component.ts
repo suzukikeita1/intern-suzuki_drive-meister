@@ -50,6 +50,7 @@ export class QuizComponent implements OnInit {
   startX = 0; // タッチ開始時のX座標
   animationState: string = 'in'; // アニメーションの状態を管理するプロパティを追加
   type: string = ''; // クエリパラメータから取得したtype
+  type2: string = ''; // クエリパラメータから取得したtype2
   directionChanged: boolean = false; // directionが変更されたかどうかを管理するプロパティを追加
 
   constructor(
@@ -74,12 +75,15 @@ export class QuizComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.type = params['type']; // クエリパラメータからtypeを取得
-      this.filterCards(this.type);
+      this.type2 = params['type2']; // クエリパラメータからtype2を取得
+      this.filterCards(this.type2);
     });
 
     if (
-      this.router.url === '/quiz?type=provisional' ||
-      this.router.url === '/quiz?type=drivers'
+      this.router.url === '/quiz?type=work&type2=provisional' ||
+      '/quiz?type=work&type2=drivers' ||
+      '/quiz?type=review&type2=provisional' ||
+      '/quiz?type=review&type2=drivers'
     ) {
       this.nextCard();
       // filteredCardsの要素を更新してバインドするために、Angularの変更検知をトリガーする
@@ -98,10 +102,10 @@ export class QuizComponent implements OnInit {
     );
   }
 
-  filterCards(type: string) {
+  filterCards(type2: string) {
     // クエリパラメータに基づいてカードをフィルタリング
     this.filteredCards = this.cards.filter((card) => {
-      return card.cardType === `${type}-license`;
+      return card.cardType === `${type2}-license`;
     });
   }
 
@@ -143,10 +147,11 @@ export class QuizComponent implements OnInit {
       // 現在のカードデータを取得
       const currentCard = this.filteredCards[this.currentCardIndex];
       // 遷移先のコンポーネントにカードデータを渡す
-      this.router.navigate(['/judge-true-false'], {
+      this.router.navigate(['/judge'], {
         state: { card: currentCard },
         queryParams: {
           type: this.type,
+          type2: this.type2,
         },
       });
       this.animationState = 'in'; // アニメーション状態をリセット

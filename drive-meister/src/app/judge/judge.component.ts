@@ -18,7 +18,7 @@ import {
 } from '@angular/animations';
 
 @Component({
-  selector: 'app-judge-true-false',
+  selector: 'app-judge',
   standalone: true,
   imports: [
     HammerModule,
@@ -27,8 +27,8 @@ import {
     RedirectResultButtonComponent,
     CommonModule,
   ],
-  templateUrl: './judge-true-false.component.html',
-  styleUrl: './judge-true-false.component.scss',
+  templateUrl: './judge.component.html',
+  styleUrl: './judge.component.scss',
   animations: [
     trigger('swipeOut', [
       state('in', style({ transform: 'translateY(0)' })),
@@ -41,12 +41,13 @@ import {
     ]),
   ],
 })
-export class JudgeTrueFalseComponent implements OnInit {
+export class JudgeComponent implements OnInit {
   direction: 'correct' | 'incorrect' | null = null;
   cardData: Card | null = null;
   startY = 0; // タッチ開始時のY座標
   animationState: string = 'in'; // アニメーションの状態を管理するプロパティを追加
   type: string = ''; // クエリパラメータから取得したtype
+  type2: string = ''; // クエリパラメータから取得したtype2
 
   // 遷移先のコンポーネントのコンストラクタ内
   constructor(
@@ -80,6 +81,7 @@ export class JudgeTrueFalseComponent implements OnInit {
 
     this.route.queryParams.subscribe((params) => {
       this.type = params['type']; // クエリパラメータからtypeを取得
+      this.type2 = params['type2']; // クエリパラメータからtype2を取得
     });
   }
 
@@ -116,6 +118,7 @@ export class JudgeTrueFalseComponent implements OnInit {
       this.router.navigate(['/quiz'], {
         queryParams: {
           type: this.type,
+          type2: this.type2,
         },
       });
       this.swipeDirectionService.resetDirection();

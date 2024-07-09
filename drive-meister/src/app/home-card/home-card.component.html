@@ -5,11 +5,11 @@
         </div>
         <div class="buttons">
             <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
-                [queryParams]="{ type: 'provisional'}">
+                [queryParams]="{ type: 'work',type2: 'provisional'}">
                 <p class="button_text">仮免</p>
             </button>
             <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
-                [queryParams]="{ type: 'drivers'}">
+                [queryParams]="{ type: 'work',type2: 'drivers'}">
                 <p class="button_text">本免</p>
             </button>
         </div>
@@ -23,11 +23,11 @@
         </div>
         <div class="buttons">
             <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
-                [queryParams]="{ type: 'provisional-review'}">
+                [queryParams]="{ type: 'review',type2: 'provisional'}">
                 <p class="button_text">仮免</p>
             </button>
             <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
-                [queryParams]="{ type: 'drivers-review'}">
+                [queryParams]="{ type: 'review',type2: 'drivers'}">
                 <p class="button_text">本免</p>
             </button>
         </div>
