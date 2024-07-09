@@ -1,0 +1,52 @@
+<ng-container>
+    <div class="judge_content">
+        <p class="judge_text">正解は</p><span *ngIf="cardData?.CorrectType === 'correct'" class="correct"></span><span
+            *ngIf="cardData?.CorrectType === 'incorrect'" class="incorrect"></span>
+    </div>
+    <mat-card *ngIf="cardData" [@swipeOut]="animationState">
+        <div class="correct_answer" *ngIf="direction === cardData?.CorrectType">
+            <svg class="circle-svg" viewBox="0 0 100 100">
+                <circle class="circle" cx="50" cy="50" r="40"></circle>
+            </svg>
+        </div>
+        <div class="incorrect_answer" *ngIf="direction !== cardData?.CorrectType">
+            <svg class="checkmark-svg" viewBox="0 0 52 52">
+                <path class="checkmark" fill="none" d="M14 27l7 7 16-16"></path>
+            </svg>
+        </div>
+        <div class="bg-next" *ngIf="this.animationState === 'next'">
+            <div class="arrow">
+                <span class="dli-arrow-up"></span>
+            </div>
+            <p class="text">次へ</p>
+        </div>
+        <div class="bg-review" *ngIf="this.animationState === 'review' && cardData?.isAddedToReview === false">
+            <div class="arrow">
+                <span class="dli-arrow-down"></span>
+            </div>
+            <p class="review_text">復習</p>
+        </div>
+        <div class="bg-review" *ngIf="this.animationState === 'review' && cardData?.isAddedToReview === true">
+            <div class="arrow">
+                <span class="dli-arrow-down"></span>
+            </div>
+            <p class="remove_review_text">復習から外す</p>
+        </div>
+        <mat-card-title>
+            <div class="quiz_image">
+                {{ cardData.quiz_img }}
+            </div>
+        </mat-card-title>
+        <mat-card-content>
+            <div class="quiz_text">
+                {{ cardData.text }}
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="explanation">
+        <div class="explanation_text">
+            <p>{{ cardData?.explanation }}</p>
+        </div>
+    </div>
+    <app-redirect-result-button></app-redirect-result-button>
+</ng-container>
