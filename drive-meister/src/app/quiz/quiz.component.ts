@@ -18,6 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SwipeDirectionService } from '../../../swipedirection.service';
 import { QuizStateService } from '../QuizState.Service';
+import { SortNextCardsService } from '../sort-next-cards.service';
 
 @Component({
   selector: 'app-quiz',
@@ -57,7 +58,8 @@ export class QuizComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private swipeDirectionService: SwipeDirectionService,
-    private quizStateService: QuizStateService
+    private quizStateService: QuizStateService,
+    private sortNextCardsService: SortNextCardsService
   ) {
     // タッチイベントリスナーの登録
     document.addEventListener(
@@ -80,10 +82,9 @@ export class QuizComponent implements OnInit {
     });
 
     if (
-      this.router.url === '/quiz?type=work&type2=provisional' ||
-      '/quiz?type=work&type2=drivers' ||
-      '/quiz?type=review&type2=provisional' ||
-      '/quiz?type=review&type2=drivers'
+      /^\/quiz\?type=(work|review)&type2=(provisional|drivers)$/.test(
+        this.router.url
+      )
     ) {
       this.nextCard();
       // filteredCardsの要素を更新してバインドするために、Angularの変更検知をトリガーする
@@ -97,8 +98,40 @@ export class QuizComponent implements OnInit {
   }
 
   nextCard() {
-    this.quizStateService.currentCardIndex = Math.floor(
-      Math.random() * this.filteredCards.length
+    // すべてのカードが表示された場合、追跡配列をリセット
+    if (
+      this.filteredCards.length ===
+      this.sortNextCardsService.displayedCardsIndices.length
+    ) {
+      console.log(
+        'リセット前:',
+        this.sortNextCardsService.displayedCardsIndices
+      );
+      this.sortNextCardsService.clearIndices();
+      console.log(
+        'リセット後:',
+        this.sortNextCardsService.displayedCardsIndices
+      );
+    }
+
+    let cardIndex: number;
+    do {
+      cardIndex = Math.floor(Math.random() * this.filteredCards.length);
+      console.log(
+        '試行中のインデックス:',
+        cardIndex,
+        '既に表示されたインデックス:',
+        this.sortNextCardsService.displayedCardsIndices
+      );
+    } while (
+      this.sortNextCardsService.displayedCardsIndices.includes(cardIndex)
+    ); // まだ表示されていないカードを選択するまで繰り返す
+
+    this.quizStateService.currentCardIndex = cardIndex;
+    this.sortNextCardsService.addIndex(cardIndex); // 表示されたカードのインデックスを追跡配列に追加
+    console.log(
+      '追加後の表示されたインデックス:',
+      this.sortNextCardsService.displayedCardsIndices
     );
   }
 

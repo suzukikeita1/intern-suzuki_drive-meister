@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { HomeComponent } from '../home/home.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { JudgeAnswerService } from '../judge-answer.service';
 
 @Component({
   selector: 'app-return-home-button',
@@ -11,4 +12,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './return-home-button.component.html',
   styleUrl: './return-home-button.component.scss',
 })
-export class ReturnHomeButtonComponent {}
+export class ReturnHomeButtonComponent {
+  constructor(private judgeAnswerService: JudgeAnswerService) {}
+
+  // results配列を初期化するメソッド
+  resetResults() {
+    this.judgeAnswerService.results = [];
+  }
+}
