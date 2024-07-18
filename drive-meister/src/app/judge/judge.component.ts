@@ -61,8 +61,8 @@ export class JudgeComponent implements OnInit {
     const currentNavigation = this.router.getCurrentNavigation();
     if (currentNavigation?.extras.state) {
       this.cardData = currentNavigation.extras.state['card'];
-      console.log(this.cardData); // ここで取得したカードデータを使用
     }
+    console.log(this.cardData); // ここで取得したカードデータを使用
 
     // タッチイベントリスナーの登録
     document.addEventListener(

@@ -1,5 +1,5 @@
 <ng-container>
-    <mat-card *ngIf="filteredCards.length > currentCardIndex" [@swipeOut]="animationState">
+    <mat-card *ngIf="filteredCards.length > this.cardIndex" [@swipeOut]="animationState">
         <div [class.bg-correct]="animationState === 'correct'">
             <div class="arrow">
                 <span class="dli-arrow-right"></span>
@@ -15,14 +15,14 @@
         </div>
         <mat-card-title>
             <div class="quiz_image">
-                {{ filteredCards[currentCardIndex].quiz_img }}
+                {{ shuffleCards[this.cardIndex].quiz_img }}
             </div>
         </mat-card-title>
         <mat-card-content>
             <div class="quiz_text">
-                {{ filteredCards[currentCardIndex].text }}
+                {{ shuffleCards[this.cardIndex].text }}
             </div>
         </mat-card-content>
     </mat-card>
-    <app-redirect-result-button></app-redirect-result-button>
+    <app-redirect-result-button (click)="resetShuffledCards(); resetCurrentCardIndex()"></app-redirect-result-button>
 </ng-container>

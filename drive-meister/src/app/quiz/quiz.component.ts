@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SwipeDirectionService } from '../../../swipedirection.service';
 import { QuizStateService } from '../QuizState.Service';
-import { SortNextCardsService } from '../sort-next-cards.service';
+import { ShuffleCardsService } from '../shuffle-cards.service';
 
 @Component({
   selector: 'app-quiz',
@@ -48,18 +48,21 @@ import { SortNextCardsService } from '../sort-next-cards.service';
 export class QuizComponent implements OnInit {
   cards: Card[] = [...CARDS]; // 全カードデータ
   filteredCards: Card[] = []; // フィルタリングされたカードデータ
+  shuffleCards: Card[] = []; // シャッフルされたカードデータ
   startX = 0; // タッチ開始時のX座標
   animationState: string = 'in'; // アニメーションの状態を管理するプロパティを追加
   type: string = ''; // クエリパラメータから取得したtype
   type2: string = ''; // クエリパラメータから取得したtype2
   directionChanged: boolean = false; // directionが変更されたかどうかを管理するプロパティを追加
+  hasShuffled = false; // shuffleメソッドの実行状態を追跡するフラグ
+  cardIndex = 0; // 現在のカードのインデックス
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private swipeDirectionService: SwipeDirectionService,
     private quizStateService: QuizStateService,
-    private sortNextCardsService: SortNextCardsService
+    private shuffleCardsService: ShuffleCardsService
   ) {
     // タッチイベントリスナーの登録
     document.addEventListener(
@@ -81,58 +84,43 @@ export class QuizComponent implements OnInit {
       this.filterCards(this.type2);
     });
 
-    if (
+    const isQuizUrl =
       /^\/quiz\?type=(work|review)&type2=(provisional|drivers)$/.test(
         this.router.url
-      )
-    ) {
-      this.nextCard();
-      // filteredCardsの要素を更新してバインドするために、Angularの変更検知をトリガーする
-      console.log(this.filteredCards);
-      console.log(this.quizStateService.currentCardIndex);
+      );
+    const hasNoShuffleCards = !this.shuffleCardsService.shuffleCards.length;
+
+    if (isQuizUrl && hasNoShuffleCards) {
+      this.shuffle();
+      // this.currentCard = this.shuffleCards[0].id;
+      this.cardIndex = this.quizStateService.currentCardIndex;
+      console.log(this.shuffleCardsService.shuffleCards);
     }
+    this.cardIndex = this.quizStateService.currentCardIndex++;
+    this.shuffleCards = this.shuffleCardsService.shuffleCards;
   }
 
-  get currentCardIndex() {
-    return this.quizStateService.currentCardIndex;
+  resetShuffledCards(): void {
+    this.shuffleCardsService.shuffleCards = [];
   }
 
-  nextCard() {
-    // すべてのカードが表示された場合、追跡配列をリセット
-    if (
-      this.filteredCards.length ===
-      this.sortNextCardsService.displayedCardsIndices.length
-    ) {
-      console.log(
-        'リセット前:',
-        this.sortNextCardsService.displayedCardsIndices
-      );
-      this.sortNextCardsService.clearIndices();
-      console.log(
-        'リセット後:',
-        this.sortNextCardsService.displayedCardsIndices
-      );
+  resetCurrentCardIndex(): void {
+    this.quizStateService.currentCardIndex = 0;
+  }
+
+  shuffle() {
+    this.shuffleCards = [...this.filteredCards]; // フィルタリングされたカードデータをコピー
+    const count = this.shuffleCards.length; //配列の件数を取得
+    // Fisher-Yates (Knuth) シャッフルアルゴリズムでカードをシャッフル
+    for (let i = count - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.shuffleCards[i], this.shuffleCards[j]] = [
+        this.shuffleCards[j],
+        this.shuffleCards[i],
+      ]; // 要素の交換
     }
-
-    let cardIndex: number;
-    do {
-      cardIndex = Math.floor(Math.random() * this.filteredCards.length);
-      console.log(
-        '試行中のインデックス:',
-        cardIndex,
-        '既に表示されたインデックス:',
-        this.sortNextCardsService.displayedCardsIndices
-      );
-    } while (
-      this.sortNextCardsService.displayedCardsIndices.includes(cardIndex)
-    ); // まだ表示されていないカードを選択するまで繰り返す
-
-    this.quizStateService.currentCardIndex = cardIndex;
-    this.sortNextCardsService.addIndex(cardIndex); // 表示されたカードのインデックスを追跡配列に追加
-    console.log(
-      '追加後の表示されたインデックス:',
-      this.sortNextCardsService.displayedCardsIndices
-    );
+    this.shuffleCardsService.shuffleCards = this.shuffleCards; // シャッフルされたカードをセッターを通して保存
+    console.log('シャッフルされたカード:', this.shuffleCards);
   }
 
   filterCards(type2: string) {
@@ -178,7 +166,8 @@ export class QuizComponent implements OnInit {
 
     setTimeout(() => {
       // 現在のカードデータを取得
-      const currentCard = this.filteredCards[this.currentCardIndex];
+      const currentCard = this.shuffleCards[this.cardIndex];
+      console.log(this.shuffleCards[this.cardIndex]);
       // 遷移先のコンポーネントにカードデータを渡す
       this.router.navigate(['/judge'], {
         state: { card: currentCard },
