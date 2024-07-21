@@ -9,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { HammerModule } from '@angular/platform-browser';
 import { SwipeDirectionService } from '../../../swipedirection.service';
 import { JudgeAnswerService } from '../../app/judge-answer.service';
+import { QuizIndexService } from '../quiz-index.Service';
+import { QuizStateService } from '../quiz-state.service';
 
 import {
   trigger,
@@ -55,15 +57,10 @@ export class JudgeComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private swipeDirectionService: SwipeDirectionService,
-    private judgeAnswerService: JudgeAnswerService
+    private judgeAnswerService: JudgeAnswerService,
+    private quizIndexService: QuizIndexService,
+    private quizStateService: QuizStateService
   ) {
-    // ナビゲーションからstateを取得してカードデータを使用
-    const currentNavigation = this.router.getCurrentNavigation();
-    if (currentNavigation?.extras.state) {
-      this.cardData = currentNavigation.extras.state['card'];
-    }
-    console.log(this.cardData); // ここで取得したカードデータを使用
-
     // タッチイベントリスナーの登録
     document.addEventListener(
       'touchstart',
@@ -81,14 +78,14 @@ export class JudgeComponent implements OnInit {
     this.swipeDirectionService.currentDirection.subscribe(
       (direction: 'correct' | 'incorrect' | null) => {
         this.direction = direction;
-        console.log(this.direction);
       }
     );
+
+    this.cardData = this.quizStateService.getCard();
 
     if (this.direction !== null) {
       this.judgeAnswerService.isCorrectType(this.direction, this.cardData);
     }
-    console.log(this.judgeAnswerService.results);
 
     this.route.queryParams.subscribe((params) => {
       this.type = params['type']; // クエリパラメータからtypeを取得

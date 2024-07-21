@@ -17,8 +17,9 @@ import { CARDS } from '../quiz-cards';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SwipeDirectionService } from '../../../swipedirection.service';
-import { QuizStateService } from '../QuizState.Service';
+import { QuizIndexService } from '../quiz-index.Service';
 import { ShuffleCardsService } from '../shuffle-cards.service';
+import { QuizStateService } from '../quiz-state.service';
 
 @Component({
   selector: 'app-quiz',
@@ -61,8 +62,9 @@ export class QuizComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private swipeDirectionService: SwipeDirectionService,
-    private quizStateService: QuizStateService,
-    private shuffleCardsService: ShuffleCardsService
+    private quizIndexService: QuizIndexService,
+    private shuffleCardsService: ShuffleCardsService,
+    private quizStateService: QuizStateService
   ) {
     // タッチイベントリスナーの登録
     document.addEventListener(
@@ -92,12 +94,14 @@ export class QuizComponent implements OnInit {
 
     if (isQuizUrl && hasNoShuffleCards) {
       this.shuffle();
-      // this.currentCard = this.shuffleCards[0].id;
-      this.cardIndex = this.quizStateService.currentCardIndex;
-      console.log(this.shuffleCardsService.shuffleCards);
+      this.cardIndex = this.quizIndexService.currentCardIndex;
     }
-    this.cardIndex = this.quizStateService.currentCardIndex++;
+    this.cardIndex = this.quizIndexService.currentCardIndex++;
     this.shuffleCards = this.shuffleCardsService.shuffleCards;
+    if (this.shuffleCards[this.cardIndex]?.id !== undefined) {
+      // idが存在する場合の処理
+      this.quizStateService.setCard(this.shuffleCards[this.cardIndex]);
+    }
   }
 
   resetShuffledCards(): void {
@@ -105,7 +109,7 @@ export class QuizComponent implements OnInit {
   }
 
   resetCurrentCardIndex(): void {
-    this.quizStateService.currentCardIndex = 0;
+    this.quizIndexService.currentCardIndex = 0;
   }
 
   shuffle() {
@@ -120,7 +124,6 @@ export class QuizComponent implements OnInit {
       ]; // 要素の交換
     }
     this.shuffleCardsService.shuffleCards = this.shuffleCards; // シャッフルされたカードをセッターを通して保存
-    console.log('シャッフルされたカード:', this.shuffleCards);
   }
 
   filterCards(type2: string) {
@@ -158,19 +161,13 @@ export class QuizComponent implements OnInit {
     if (!this.directionChanged) {
       this.animationState = direction;
       this.directionChanged = true; // directionが変更されたことを記録
-      console.log('Updated animationState:', this.animationState);
     } else {
-      console.log('directionは既に設定されています。');
     }
     this.swipeDirectionService.changeDirection(direction);
 
     setTimeout(() => {
-      // 現在のカードデータを取得
-      const currentCard = this.shuffleCards[this.cardIndex];
-      console.log(this.shuffleCards[this.cardIndex]);
       // 遷移先のコンポーネントにカードデータを渡す
       this.router.navigate(['/judge'], {
-        state: { card: currentCard },
         queryParams: {
           type: this.type,
           type2: this.type2,
