@@ -20,13 +20,13 @@
             </div>
             <p class="text">次へ</p>
         </div>
-        <div class="bg-review" *ngIf="this.animationState === 'review' && cardData?.isAddedToReview === false">
+        <div class="bg-review" *ngIf="this.animationState === 'review' && this.cardData?.isAddedToReview === false">
             <div class="arrow">
                 <span class="dli-arrow-down"></span>
             </div>
             <p class="review_text">復習</p>
         </div>
-        <div class="bg-review" *ngIf="this.animationState === 'review' && cardData?.isAddedToReview === true">
+        <div class="bg-review" *ngIf="this.animationState === 'review' && this.cardData?.isAddedToReview === true">
             <div class="arrow">
                 <span class="dli-arrow-down"></span>
             </div>
@@ -34,18 +34,18 @@
         </div>
         <mat-card-title>
             <div class="quiz_image">
-                {{ cardData.quiz_img }}
+                {{ this.cardData.quiz_img }}
             </div>
         </mat-card-title>
         <mat-card-content>
             <div class="quiz_text">
-                {{ cardData.text }}
+                {{ this.cardData.text }}
             </div>
         </mat-card-content>
     </mat-card>
     <div class="explanation">
         <div class="explanation_text">
-            <p>{{ cardData?.explanation }}</p>
+            <p>{{ this.cardData?.explanation }}</p>
         </div>
     </div>
     <app-redirect-result-button></app-redirect-result-button>
