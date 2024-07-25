@@ -17,7 +17,9 @@ import { CARDS } from '../quiz-cards';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SwipeDirectionService } from '../../../swipedirection.service';
-import { QuizStateService } from '../QuizState.Service';
+import { QuizIndexService } from '../quiz-index.Service';
+import { ShuffleCardsService } from '../shuffle-cards.service';
+import { QuizStateService } from '../quiz-state.service';
 
 @Component({
   selector: 'app-quiz',
@@ -47,16 +49,21 @@ import { QuizStateService } from '../QuizState.Service';
 export class QuizComponent implements OnInit {
   cards: Card[] = [...CARDS]; // 全カードデータ
   filteredCards: Card[] = []; // フィルタリングされたカードデータ
+  shuffleCards: Card[] = []; // シャッフルされたカードデータ
   startX = 0; // タッチ開始時のX座標
   animationState: string = 'in'; // アニメーションの状態を管理するプロパティを追加
   type: string = ''; // クエリパラメータから取得したtype
   type2: string = ''; // クエリパラメータから取得したtype2
   directionChanged: boolean = false; // directionが変更されたかどうかを管理するプロパティを追加
+  hasShuffled = false; // shuffleメソッドの実行状態を追跡するフラグ
+  cardIndex = 0; // 現在のカードのインデックス
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private swipeDirectionService: SwipeDirectionService,
+    private quizIndexService: QuizIndexService,
+    private shuffleCardsService: ShuffleCardsService,
     private quizStateService: QuizStateService
   ) {
     // タッチイベントリスナーの登録
@@ -79,27 +86,44 @@ export class QuizComponent implements OnInit {
       this.filterCards(this.type2);
     });
 
-    if (
-      this.router.url === '/quiz?type=work&type2=provisional' ||
-      '/quiz?type=work&type2=drivers' ||
-      '/quiz?type=review&type2=provisional' ||
-      '/quiz?type=review&type2=drivers'
-    ) {
-      this.nextCard();
-      // filteredCardsの要素を更新してバインドするために、Angularの変更検知をトリガーする
-      console.log(this.filteredCards);
-      console.log(this.quizStateService.currentCardIndex);
+    const isQuizUrl =
+      /^\/quiz\?type=(work|review)&type2=(provisional|drivers)$/.test(
+        this.router.url
+      );
+    const hasNoShuffleCards = !this.shuffleCardsService.shuffleCards.length;
+
+    if (isQuizUrl && hasNoShuffleCards) {
+      this.shuffle();
+      this.cardIndex = this.quizIndexService.currentCardIndex;
+    }
+    this.cardIndex = this.quizIndexService.currentCardIndex++;
+    this.shuffleCards = this.shuffleCardsService.shuffleCards;
+    if (this.shuffleCards[this.cardIndex]?.id !== undefined) {
+      // idが存在する場合の処理
+      this.quizStateService.setCard(this.shuffleCards[this.cardIndex]);
     }
   }
 
-  get currentCardIndex() {
-    return this.quizStateService.currentCardIndex;
+  resetShuffledCards(): void {
+    this.shuffleCardsService.shuffleCards = [];
   }
 
-  nextCard() {
-    this.quizStateService.currentCardIndex = Math.floor(
-      Math.random() * this.filteredCards.length
-    );
+  resetCurrentCardIndex(): void {
+    this.quizIndexService.currentCardIndex = 0;
+  }
+
+  shuffle() {
+    this.shuffleCards = [...this.filteredCards]; // フィルタリングされたカードデータをコピー
+    const count = this.shuffleCards.length; //配列の件数を取得
+    // Fisher-Yates (Knuth) シャッフルアルゴリズムでカードをシャッフル
+    for (let i = count - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.shuffleCards[i], this.shuffleCards[j]] = [
+        this.shuffleCards[j],
+        this.shuffleCards[i],
+      ]; // 要素の交換
+    }
+    this.shuffleCardsService.shuffleCards = this.shuffleCards; // シャッフルされたカードをセッターを通して保存
   }
 
   filterCards(type2: string) {
@@ -137,18 +161,13 @@ export class QuizComponent implements OnInit {
     if (!this.directionChanged) {
       this.animationState = direction;
       this.directionChanged = true; // directionが変更されたことを記録
-      console.log('Updated animationState:', this.animationState);
     } else {
-      console.log('directionは既に設定されています。');
     }
     this.swipeDirectionService.changeDirection(direction);
 
     setTimeout(() => {
-      // 現在のカードデータを取得
-      const currentCard = this.filteredCards[this.currentCardIndex];
       // 遷移先のコンポーネントにカードデータを渡す
       this.router.navigate(['/judge'], {
-        state: { card: currentCard },
         queryParams: {
           type: this.type,
           type2: this.type2,

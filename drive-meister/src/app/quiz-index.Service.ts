@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class QuizStateService {
+export class QuizIndexService {
   private _currentCardIndex: number = 0;
 
   get currentCardIndex(): number {

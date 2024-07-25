@@ -1,4 +1,5 @@
 export interface Card {
+  id: number; // カードのIDを保持する新しいプロパティ
   quiz_img: string;
   text: string;
   CorrectType: 'correct' | 'incorrect'; // 問題の正解が⚪︎か×かを判別するプロパティ
