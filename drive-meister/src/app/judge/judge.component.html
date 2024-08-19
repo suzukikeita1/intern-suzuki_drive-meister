@@ -1,15 +1,15 @@
 <ng-container>
     <div class="judge_content">
-        <p class="judge_text">正解は</p><span *ngIf="cardData?.CorrectType === 'correct'" class="correct"></span><span
-            *ngIf="cardData?.CorrectType === 'incorrect'" class="incorrect"></span>
+        <p class="judge_text">正解は</p><span *ngIf="cardData?.correct_type === 'correct'" class="correct"></span><span
+            *ngIf="cardData?.correct_type === 'incorrect'" class="incorrect"></span>
     </div>
     <mat-card *ngIf="cardData" [@swipeOut]="animationState">
-        <div class="correct_answer" *ngIf="direction === cardData?.CorrectType">
+        <div class="correct_answer" *ngIf="direction === cardData?.correct_type">
             <svg class="circle-svg" viewBox="0 0 100 100">
                 <circle class="circle" cx="50" cy="50" r="40"></circle>
             </svg>
         </div>
-        <div class="incorrect_answer" *ngIf="direction !== cardData?.CorrectType">
+        <div class="incorrect_answer" *ngIf="direction !== cardData?.correct_type">
             <svg class="checkmark-svg" viewBox="0 0 52 52">
                 <path class="checkmark" fill="none" d="M14 27l7 7 16-16"></path>
             </svg>
@@ -34,7 +34,7 @@
         </div>
         <mat-card-title>
             <div class="quiz_image">
-                {{ this.cardData.quiz_img }}
+                <img src="{{ this.cardData.image }}" alt="">
             </div>
         </mat-card-title>
         <mat-card-content>

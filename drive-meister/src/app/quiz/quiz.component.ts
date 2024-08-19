@@ -13,13 +13,14 @@ import {
 } from '@angular/animations';
 import { RedirectResultButtonComponent } from '../redirect-result-button/redirect-result-button.component';
 import { Card } from '../types/card';
-import { CARDS } from '../quiz-cards';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SwipeDirectionService } from '../../../swipedirection.service';
 import { QuizIndexService } from '../quiz-index.Service';
 import { ShuffleCardsService } from '../shuffle-cards.service';
 import { QuizStateService } from '../quiz-state.service';
+import { QuizCardService } from '../quiz-card.service';
+
 
 @Component({
   selector: 'app-quiz',
@@ -47,7 +48,7 @@ import { QuizStateService } from '../quiz-state.service';
   ],
 })
 export class QuizComponent implements OnInit {
-  cards: Card[] = [...CARDS]; // 全カードデータ
+  cards: Card[] = this.quizCardService.getQuizCards; // 全カードデータ
   filteredCards: Card[] = []; // フィルタリングされたカードデータ
   shuffleCards: Card[] = []; // シャッフルされたカードデータ
   startX = 0; // タッチ開始時のX座標
@@ -64,7 +65,8 @@ export class QuizComponent implements OnInit {
     private swipeDirectionService: SwipeDirectionService,
     private quizIndexService: QuizIndexService,
     private shuffleCardsService: ShuffleCardsService,
-    private quizStateService: QuizStateService
+    private quizStateService: QuizStateService,
+    private quizCardService: QuizCardService
   ) {
     // タッチイベントリスナーの登録
     document.addEventListener(
@@ -129,7 +131,7 @@ export class QuizComponent implements OnInit {
   filterCards(type2: string) {
     // クエリパラメータに基づいてカードをフィルタリング
     this.filteredCards = this.cards.filter((card) => {
-      return card.cardType === `${type2}-license`;
+      return card.card_type === `${type2}-license`;
     });
   }
 
