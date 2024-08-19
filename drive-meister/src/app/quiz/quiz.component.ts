@@ -82,7 +82,6 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('cards', this.cards);
     this.route.queryParams.subscribe((params) => {
       this.type = params['type']; // クエリパラメータからtypeを取得
       this.type2 = params['type2']; // クエリパラメータからtype2を取得
@@ -130,12 +129,10 @@ export class QuizComponent implements OnInit {
   }
 
   filterCards(type2: string) {
-    console.log(this.cards);
     // クエリパラメータに基づいてカードをフィルタリング
     this.filteredCards = this.cards.filter((card) => {
       return card.card_type === `${type2}-license`;
     });
-    console.log(this.filteredCards);
   }
 
   handleTouchStart(event: TouchEvent) {

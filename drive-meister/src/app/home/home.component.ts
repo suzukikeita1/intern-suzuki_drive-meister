@@ -33,9 +33,6 @@ export class HomeComponent implements OnInit {
     this.quizSservice.getAllQuiz().subscribe((data) => {
       this.cards = data;
       this.quizCardService.setQuizCards = this.cards;
-      console.log(this.cards);
-      const quizCards = this.quizCardService.getQuizCards;
-      console.log('Quiz Cards:', quizCards);
     });
   }
 }
