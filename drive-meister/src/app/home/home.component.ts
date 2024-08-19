@@ -6,9 +6,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { Card } from '../types/card';
-import { CARDS } from '../quiz-cards';
 
 import { QuizService } from '../quiz.service';
+import { ShuffleCardsService } from '../shuffle-cards.service';
+import { QuizCardService } from '../quiz-card.service';
 
 @Component({
   selector: 'app-home',
@@ -25,25 +26,18 @@ import { QuizService } from '../quiz.service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  constructor(private quizSservice: QuizService) {}
-  cards: Card[] = [...CARDS];
+  constructor(private quizSservice: QuizService,private shuffleCardsService: ShuffleCardsService,private quizCardService: QuizCardService) {}
+  cards: Card[] = [];
 
   ngOnInit(): void {
-    console.log(this.quizSservice.getAllQuiz());
+    this.quizSservice.getAllQuiz().subscribe((data) => {
+      this.cards = data;
+      this.quizCardService.setQuizCards = this.cards;
+      console.log(this.cards);
+      const quizCards = this.quizCardService.getQuizCards;
+      console.log('Quiz Cards:', quizCards);
+    });
   }
-
-  // async addCardsToFirestore() {
-  //   try {
-  //     const cardsCollection = this.firestore.collection('cards');
-  //     for (const card of this.cards) {
-  //       await cardsCollection.add(card);
-  //     }
-  //     console.log('All cards have been added to Firestore');
-  //   } catch (error) {
-  //     console.error('Error adding documents: ', error);
-  //   }
-  // }
-
 }
 
 
