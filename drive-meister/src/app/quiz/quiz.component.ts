@@ -72,12 +72,12 @@ export class QuizComponent implements OnInit {
     document.addEventListener(
       'touchstart',
       this.handleTouchStart.bind(this),
-      { passive: false } // passiveをfalseに設定
+      { passive: true } // passiveをfalseに設定
     );
     document.addEventListener(
       'touchend',
       this.handleTouchEnd.bind(this),
-      { passive: false } // passiveをfalseに設定
+      { passive: true } // passiveをfalseに設定
     );
   }
 
@@ -138,12 +138,10 @@ export class QuizComponent implements OnInit {
   handleTouchStart(event: TouchEvent) {
     this.startX = event.touches[0].clientX; // タッチ開始時のX座標を記録
     event.stopPropagation(); // イベントの伝播を停止
-    event.preventDefault(); // ブラウザのデフォルト動作を防止
   }
 
   handleTouchEnd(event: TouchEvent) {
     event.stopPropagation(); // イベントの伝播を停止
-    event.preventDefault(); // ブラウザのデフォルト動作を防止
 
     const endX = event.changedTouches[0].clientX; // タッチ終了時のX座標を取得
     const diffX = endX - this.startX; // 開始X座標と終了X座標の差

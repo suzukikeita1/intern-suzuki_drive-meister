@@ -65,12 +65,12 @@ export class JudgeComponent implements OnInit {
     document.addEventListener(
       'touchstart',
       this.handleTouchStart.bind(this),
-      { passive: false } // passiveをfalseに設定
+      { passive: true } // passiveをfalseに設定
     );
     document.addEventListener(
       'touchend',
       this.handleTouchEnd.bind(this),
-      { passive: false } // passiveをfalseに設定
+      { passive: true } // passiveをfalseに設定
     );
   }
 
@@ -96,12 +96,10 @@ export class JudgeComponent implements OnInit {
   handleTouchStart(event: TouchEvent) {
     this.startY = event.touches[0].clientY; // タッチ開始時のY座標を記録
     event.stopPropagation(); // イベントの伝播を停止
-    event.preventDefault(); // ブラウザのデフォルト動作を防止
   }
 
   handleTouchEnd(event: TouchEvent) {
     event.stopPropagation(); // イベントの伝播を停止
-    event.preventDefault(); // ブラウザのデフォルト動作を防止
 
     const endY = event.changedTouches[0].clientY; // タッチ終了時のY座標を取得
     const diffY = endY - this.startY; // 開始Y座標と終了Y座標の差
