@@ -9,9 +9,11 @@ export class QuizCardService {
 
   set setQuizCards(cards: Card[]) {
     this.quizCards = cards;
+    console.log(this.quizCards);
   }
 
   get getQuizCards(): Card[] {
+    console.log('aaa');
     return this.quizCards;
   }
 }

@@ -7,12 +7,18 @@ import { Card } from './types/card';
 
 export class QuizService {
   quizList: AngularFirestoreCollection<Card>;
+  reviewList: AngularFirestoreCollection<Card>;
 
   constructor(private db: AngularFirestore) {
     this.quizList = this.db.collection('/quiz');
+    this.reviewList = this.db.collection('/user_review');
   }
 
   getAllQuiz(): Observable<Card[]> {
     return this.quizList.valueChanges();
+  }
+
+  getAllReview(): Observable<Card[]> {
+    return this.reviewList.valueChanges();
   }
 }

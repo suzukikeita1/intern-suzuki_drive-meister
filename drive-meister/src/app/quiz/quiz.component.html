@@ -13,16 +13,12 @@
                 <span class="dli-arrow-left"></span>
             </div>
         </div>
-        <mat-card-title>
-            <div class="quiz_image">
-                <img src="{{ shuffleCards[this.cardIndex].image }}" alt="">
-            </div>
-        </mat-card-title>
-        <mat-card-content>
-            <div class="quiz_text">
-                {{ shuffleCards[this.cardIndex].text }}
-            </div>
-        </mat-card-content>
+        <div class="quiz_text">
+            {{ shuffleCards[this.cardIndex].text }}
+        </div>
+        <div *ngIf="shuffleCards[this.cardIndex].image" class="quiz_image">
+            <img src="{{ shuffleCards[this.cardIndex].image }}" alt="">
+        </div>
     </mat-card>
     <app-redirect-result-button></app-redirect-result-button>
 </ng-container>

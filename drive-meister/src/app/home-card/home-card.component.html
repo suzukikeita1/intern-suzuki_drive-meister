@@ -4,12 +4,12 @@
             <p class="title_text">問題を解く</p>
         </div>
         <div class="buttons">
-            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
-                [queryParams]="{ type: 'work',type2: 'provisional'}">
+            <button mat-raised-button class="button-circle" color="none" (click)="onWorkButtonClick()"
+                routerLink="/quiz" [queryParams]="{ type: 'work',type2: 'provisional'}">
                 <p class="button_text">仮免</p>
             </button>
-            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
-                [queryParams]="{ type: 'work',type2: 'drivers'}">
+            <button mat-raised-button class="button-circle" color="none" (click)="onWorkButtonClick()"
+                routerLink="/quiz" [queryParams]="{ type: 'work',type2: 'drivers'}">
                 <p class="button_text">本免</p>
             </button>
         </div>
@@ -22,12 +22,12 @@
             <p class="title_text">復習</p>
         </div>
         <div class="buttons">
-            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
-                [queryParams]="{ type: 'review',type2: 'provisional'}">
+            <button mat-raised-button class="button-circle" color="none" (click)="onReviewButtonClick()"
+                routerLink="/quiz" [queryParams]="{ type: 'review',type2: 'provisional'}">
                 <p class="button_text">仮免</p>
             </button>
-            <button mat-raised-button class="button-circle" color="none" routerLink="/quiz"
-                [queryParams]="{ type: 'review',type2: 'drivers'}">
+            <button mat-raised-button class="button-circle" color="none" (click)="onReviewButtonClick()"
+                routerLink="/quiz" [queryParams]="{ type: 'review',type2: 'drivers'}">
                 <p class="button_text">本免</p>
             </button>
         </div>

@@ -25,16 +25,8 @@ import { QuizCardService } from '../quiz-card.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
-  constructor(private quizSservice: QuizService,private shuffleCardsService: ShuffleCardsService,private quizCardService: QuizCardService) {}
-  cards: Card[] = [];
-
-  ngOnInit(): void {
-    this.quizSservice.getAllQuiz().subscribe((data) => {
-      this.cards = data;
-      this.quizCardService.setQuizCards = this.cards;
-    });
-  }
+export class HomeComponent {
+  
 }
 
 

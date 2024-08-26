@@ -11,6 +11,7 @@ import { SwipeDirectionService } from '../../../swipedirection.service';
 import { JudgeAnswerService } from '../../app/judge-answer.service';
 import { QuizIndexService } from '../quiz-index.Service';
 import { QuizStateService } from '../quiz-state.service';
+import { AngularFirestoreModule, AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 
 import {
   trigger,
@@ -29,6 +30,7 @@ import {
     MatCardModule,
     RedirectResultButtonComponent,
     CommonModule,
+    AngularFirestoreModule,
   ],
   templateUrl: './judge.component.html',
   styleUrl: './judge.component.scss',
@@ -59,7 +61,8 @@ export class JudgeComponent implements OnInit {
     private swipeDirectionService: SwipeDirectionService,
     private judgeAnswerService: JudgeAnswerService,
     private quizIndexService: QuizIndexService,
-    private quizStateService: QuizStateService
+    private quizStateService: QuizStateService,
+    private db: AngularFirestore
   ) {
     // タッチイベントリスナーの登録
     document.addEventListener(
@@ -112,6 +115,12 @@ export class JudgeComponent implements OnInit {
     } else if (diffY > swipeThreshold) {
       // 下スワイプ
       this.changeAnimationState('review');
+      this.db.collection('/user_review', ref => ref.where('id', '==', this.cardData?.id)).get().subscribe(querySnapshot => {
+        if (querySnapshot.empty) {
+          // 同じIDのドキュメントが存在しない場合、新しいドキュメントを追加
+          this.db.collection('/user_review').add(this.cardData);
+        }
+      });      
     }
   }
 
