@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -27,24 +27,21 @@ import { QuizCardService } from '../quiz-card.service';
   templateUrl: './home-card.component.html',
   styleUrl: './home-card.component.scss',
 })
-export class HomeCardComponent {
+export class HomeCardComponent implements OnInit {
   constructor(private quizService: QuizService,private quizCardService: QuizCardService, private router: Router) {}
   cards: Card[] = [];
+  reviewCards: Card[] = [];
   @Input() cardType: string = '';
 
-  onWorkButtonClick(): void {
-    console.log('onWorkButtonClick');
+  ngOnInit() {
     this.quizService.getAllQuiz().subscribe((data) => {
       this.cards = data;
       this.quizCardService.setQuizCards = this.cards;
     });
-  }
-
-  onReviewButtonClick(): void {
-    console.log('onReviewButtonClick');
     this.quizService.getAllReview().subscribe((data) => {
-      this.cards = data;
-      this.quizCardService.setQuizCards = this.cards;
+      this.reviewCards = data;
+      this.quizCardService.setReviewQuizCards = this.reviewCards;
     });
+    
   }
 }

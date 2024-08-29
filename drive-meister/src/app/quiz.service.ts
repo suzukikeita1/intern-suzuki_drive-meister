@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Card } from './types/card';
 
+
 @Injectable({ providedIn: 'root' }) // このサービスをルートに提供する
 
 export class QuizService {

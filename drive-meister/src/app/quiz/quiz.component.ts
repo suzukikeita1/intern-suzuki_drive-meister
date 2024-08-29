@@ -84,6 +84,9 @@ export class QuizComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.type = params['type']; // クエリパラメータからtypeを取得
+      if (this.type === 'review') {
+        this.cards = this.quizCardService.getReviewQuizCards;
+      }
       this.type2 = params['type2']; // クエリパラメータからtype2を取得
       this.filterCards(this.type2);
     });
