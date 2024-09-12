@@ -1,5 +1,6 @@
 <div class="finish_button">
-    <button mat-raised-button routerLink="/result">
+    <button mat-raised-button routerLink="/result"
+        (click)="onResetCardIndex(); onResetReviewCard(); addCardToUserReview(); removeCardFromUserReview();">
         <p class="button_text">finish</p>
     </button>
 </div>

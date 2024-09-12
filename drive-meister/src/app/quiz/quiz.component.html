@@ -13,7 +13,7 @@
                 <span class="dli-arrow-left"></span>
             </div>
         </div>
-        <div class="quiz_text">
+        <div *ngIf="shuffleCards[this.cardIndex].text" class="quiz_text">
             {{ shuffleCards[this.cardIndex].text }}
         </div>
         <div *ngIf="shuffleCards[this.cardIndex].image" class="quiz_image">

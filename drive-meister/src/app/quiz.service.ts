@@ -7,6 +7,7 @@ import { Card } from './types/card';
 @Injectable({ providedIn: 'root' }) // このサービスをルートに提供する
 
 export class QuizService {
+  //全クイズデータを取得、全クイズ（復習）データを取得
   quizList: AngularFirestoreCollection<Card>;
   reviewList: AngularFirestoreCollection<Card>;
 

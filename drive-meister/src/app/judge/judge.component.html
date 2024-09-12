@@ -20,13 +20,13 @@
             </div>
             <p class="text">次へ</p>
         </div>
-        <div class="bg-review" *ngIf="this.animationState === 'review'">
+        <div class="bg-review" *ngIf="this.animationState === 'review' && this.type === 'work'">
             <div class="arrow">
                 <span class="dli-arrow-down"></span>
             </div>
             <p class="review_text">復習</p>
         </div>
-        <div class="bg-review" *ngIf="this.animationState === 'review' && this.cardData?.isAddedToReview === true">
+        <div class="bg-review" *ngIf="this.animationState === 'review' && this.type === 'review'">
             <div class="arrow">
                 <span class="dli-arrow-down"></span>
             </div>
