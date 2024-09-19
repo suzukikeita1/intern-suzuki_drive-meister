@@ -11,6 +11,9 @@ import { SwipeDirectionService } from '../../../swipedirection.service';
 import { JudgeAnswerService } from '../../app/judge-answer.service';
 import { QuizIndexService } from '../quiz-index.Service';
 import { QuizStateService } from '../quiz-state.service';
+import { AddReviewRemoveReviewService } from '../add-review_remove-review.service';
+import { AngularFirestoreModule, AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 import {
   trigger,
@@ -29,6 +32,7 @@ import {
     MatCardModule,
     RedirectResultButtonComponent,
     CommonModule,
+    AngularFirestoreModule,
   ],
   templateUrl: './judge.component.html',
   styleUrl: './judge.component.scss',
@@ -59,7 +63,9 @@ export class JudgeComponent implements OnInit {
     private swipeDirectionService: SwipeDirectionService,
     private judgeAnswerService: JudgeAnswerService,
     private quizIndexService: QuizIndexService,
-    private quizStateService: QuizStateService
+    private quizStateService: QuizStateService,
+    private addReviewRemoveReviewService: AddReviewRemoveReviewService,
+    private db: AngularFirestore
   ) {
     // タッチイベントリスナーの登録
     document.addEventListener(
@@ -109,8 +115,13 @@ export class JudgeComponent implements OnInit {
     if (diffY < -swipeThreshold) {
       // 上スワイプ
       this.changeAnimationState('next');
-    } else if (diffY > swipeThreshold) {
-      // 下スワイプ
+    } else if (diffY > swipeThreshold && this.type === 'work') {
+      // 下スワイプ 
+      this.addReviewRemoveReviewService.addCardToReview(this.cardData?.id);
+      this.changeAnimationState('review');
+    } else if (diffY > swipeThreshold && this.type === 'review') {
+      // 下スワイプで復習からはずす
+      this.addReviewRemoveReviewService.removeCardFromReview(this.cardData?.id);
       this.changeAnimationState('review');
     }
   }

@@ -85,33 +85,35 @@ export class QuizComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.type = params['type']; // クエリパラメータからtypeを取得
       this.type2 = params['type2']; // クエリパラメータからtype2を取得
-      this.filterCards(this.type2);
     });
 
+    if (this.type === 'review') {
+      this.cards = this.quizCardService.getReviewQuizCards;
+    }
+
+    this.filterCards(this.type2); // クエリパラメータに基づいてカードをフィルタリング(仮免or本免)
+
     const isQuizUrl =
-      /^\/quiz\?type=(work|review)&type2=(provisional|drivers)$/.test(
-        this.router.url
-      );
-    const hasNoShuffleCards = !this.shuffleCardsService.shuffleCards.length;
+    /^\/quiz\?type=(work|review)&type2=(provisional|drivers)$/.test(
+      this.router.url
+    );
+    let hasNoShuffleCards = !this.shuffleCardsService?.shuffleCards?.length;
 
     if (isQuizUrl && hasNoShuffleCards) {
       this.shuffle();
       this.cardIndex = this.quizIndexService.currentCardIndex;
     }
+
     this.cardIndex = this.quizIndexService.currentCardIndex++;
     this.shuffleCards = this.shuffleCardsService.shuffleCards;
+
+    // シャッフルされたカードデータが存在し、idプロパティが定義されている場合
     if (this.shuffleCards[this.cardIndex]?.id !== undefined) {
+      console.log(this.cardIndex);
+      console.log(this.shuffleCards[this.cardIndex]);
       // idが存在する場合の処理
       this.quizStateService.setCard(this.shuffleCards[this.cardIndex]);
     }
-  }
-
-  resetShuffledCards(): void {
-    this.shuffleCardsService.shuffleCards = [];
-  }
-
-  resetCurrentCardIndex(): void {
-    this.quizIndexService.currentCardIndex = 0;
   }
 
   shuffle() {
@@ -161,7 +163,6 @@ export class QuizComponent implements OnInit {
     if (!this.directionChanged) {
       this.animationState = direction;
       this.directionChanged = true; // directionが変更されたことを記録
-    } else {
     }
     this.swipeDirectionService.changeDirection(direction);
 
