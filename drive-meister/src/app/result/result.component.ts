@@ -81,14 +81,14 @@ export class ResultComponent implements OnInit {
     });
   }
 
-  onResetReviewCard() {
+  async onResetReviewCard() {
     this.quizService.getAllReview().subscribe((data) => {
       this.reviewCards = data;
       this.quizCardService.setReviewQuizCards = this.reviewCards;
     });
   }
 
-  onResetCardCount() {
+  async onResetCardCount() {
     this.reviewCountService.getProvisionalLicenseCount().subscribe(count => {
       this.provisionalLicenseCount = count;
     });
