@@ -4,6 +4,7 @@ import { HomeComponent } from '../home/home.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { JudgeAnswerService } from '../judge-answer.service';
+import { AddReviewRemoveReviewService } from '../add-review_remove-review.service';
 
 @Component({
   selector: 'app-return-home-button',
@@ -13,10 +14,15 @@ import { JudgeAnswerService } from '../judge-answer.service';
   styleUrl: './return-home-button.component.scss',
 })
 export class ReturnHomeButtonComponent {
-  constructor(private judgeAnswerService: JudgeAnswerService) {}
+  constructor(private judgeAnswerService: JudgeAnswerService,private addReviewRemoveReviewService: AddReviewRemoveReviewService) {}
 
   // results配列を初期化するメソッド
   resetResults() {
     this.judgeAnswerService.results = [];
+  }
+
+  // addReviewCards配列を初期化するメソッド
+  resetAddReviewCards() {
+    this.addReviewRemoveReviewService.addReviewCards = [];
   }
 }

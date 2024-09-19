@@ -6,8 +6,8 @@ import { Card } from './types/card';
 })
 
 export class AddReviewRemoveReviewService {
-    private addReviewCards: number[] = []; // レビューに追加したいカードデータ
-    private removeReviewCards: number[] = []; // レビューから削除したいカードデータ
+    addReviewCards: number[] = []; // レビューに追加したいカードデータ
+    removeReviewCards: number[] = []; // レビューから削除したいカードデータ
 
     addCardToReview(cardId: number | undefined): void {
         if (cardId !== undefined && !this.addReviewCards.includes(cardId)) {
@@ -29,6 +29,11 @@ export class AddReviewRemoveReviewService {
 
     get getRemoveReviewCards(): number[] {
         return this.removeReviewCards;
+    }
+
+    initializeReviewCards() {
+        this.addReviewCards = [];
+        this.removeReviewCards = [];
     }
 
 }

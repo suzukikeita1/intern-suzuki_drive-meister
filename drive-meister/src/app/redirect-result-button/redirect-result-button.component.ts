@@ -17,57 +17,16 @@ import { AngularFirestore,AngularFirestoreModule } from '@angular/fire/compat/fi
 @Component({
   selector: 'app-redirect-result-button',
   standalone: true,
-  imports: [MatButtonModule, CommonModule, RouterModule, ResultComponent, AngularFirestore,AngularFirestoreModule],
+  imports: [MatButtonModule, CommonModule, RouterModule, ResultComponent, AngularFirestoreModule],
   templateUrl: './redirect-result-button.component.html',
   styleUrl: './redirect-result-button.component.scss',
 })
 export class RedirectResultButtonComponent {
   constructor(private quizIndexService: QuizIndexService,private shuffleCardsService: ShuffleCardsService,private reviewCountService: ReviewCountService,private quizService: QuizService,private quizCardService: QuizCardService, private addReviewRemoveReviewService: AddReviewRemoveReviewService,private db: AngularFirestore) {}
-  reviewCards: Card[] = [];
-  provisionalLicenseCount: number | undefined;
-  driversLicenseCount: number | undefined;
-
+  
   onResetCardIndex() {
     this.quizIndexService.resetCurrentCardIndex();
     this.shuffleCardsService.shuffleCards = [];
-  }
-
-  onResetReviewCard() {
-    this.quizService.getAllReview().subscribe((data) => {
-      this.reviewCards = data;
-      this.quizCardService.setReviewQuizCards = this.reviewCards;
-    });
-  }
-
-  onResetCardCount() {
-    this.reviewCountService.getProvisionalLicenseCount().subscribe(count => {
-      this.provisionalLicenseCount = count;
-    });
-    this.reviewCountService.getDriversLicenseCount().subscribe(count => {
-      this.driversLicenseCount = count;
-    });
-  }
-
-  addCardToUserReview() {
-    const addReviewCards = this.addReviewRemoveReviewService.getAddReviewCards;
-    addReviewCards.forEach(cardId => {
-      this.db.collection('quiz', ref => ref.where('id', '==', cardId)).get().subscribe(querySnapshot => {
-        if (querySnapshot.empty) {
-          this.db.collection('user_review').add({ id: cardId });
-        }
-      });
-    });
-  }
-
-  removeCardFromUserReview() {
-    const removeReviewCards = this.addReviewRemoveReviewService.getRemoveReviewCards;
-    removeReviewCards.forEach(cardId => {
-      this.db.collection('user_review', ref => ref.where('id', '==', cardId)).get().subscribe(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          doc.ref.delete();
-        });
-      });
-    });
   }
 
 }
