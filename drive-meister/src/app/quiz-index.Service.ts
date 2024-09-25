@@ -13,4 +13,9 @@ export class QuizIndexService {
   set currentCardIndex(value: number) {
     this._currentCardIndex = value;
   }
+
+  resetCurrentCardIndex() {
+    this._currentCardIndex = 0;
+  }
+  
 }
