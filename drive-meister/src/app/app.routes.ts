@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { MyPageComponent } from './components/my-page/my-page.component';
-import { GuideComponent } from './components/guide/guide.component';
-import { LoginComponent } from './components/login/login.component';
-import { QuizComponent } from './components/quiz/quiz.component';
-import { JudgeComponent } from './components/judge/judge.component';
-import { ResultComponent } from './components/result/result.component';
-import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './pages/home/home.component';
+import { MyPageComponent } from './pages/my-page/my-page.component';
+import { GuideComponent } from './pages/guide/guide.component';
+import { LoginComponent } from './pages/login/login.component';
+import { QuizComponent } from './pages/quiz/quiz.component';
+import { JudgeComponent } from './pages/judge/judge.component';
+import { ResultComponent } from './pages/result/result.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

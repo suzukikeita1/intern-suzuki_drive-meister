@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyPageLoginLogoutComponent } from '../my-page-login-logout/my-page-login-logout.component';
-import { ReturnHomeButtonComponent } from '../return-home-button/return-home-button.component';
+import { MyPageLoginLogoutComponent } from '../../components/my-page-login-logout/my-page-login-logout.component';
+import { ReturnHomeButtonComponent } from '../../components/return-home-button/return-home-button.component';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

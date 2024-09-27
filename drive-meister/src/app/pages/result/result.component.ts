@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { ReturnHomeButtonComponent } from '../return-home-button/return-home-button.component';
+import { ReturnHomeButtonComponent } from '../../components/return-home-button/return-home-button.component';
 import { RouterModule } from '@angular/router';
-import { RedirectResultButtonComponent } from '../redirect-result-button/redirect-result-button.component';
+import { RedirectResultButtonComponent } from '../../components/redirect-result-button/redirect-result-button.component';
 import { JudgeAnswerService } from '../../services/judge-answer.service';
 import { AngularFirestore,AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AddReviewRemoveReviewService } from '../../services/add-review_remove-review.service';
-import { ReviewCountService } from '../../services/review-count.Service';
+import { ReviewCountService } from '../../services/review-count.service';
 import { QuizCardService } from '../../services/quiz-card.service';
 import { QuizService } from '../../services/quiz.service';
 import { Card } from '../../types/card';
@@ -49,12 +49,10 @@ export class ResultComponent implements OnInit {
     await this.onResetCardCount();
     console.log('After onResetCardCount');
     this.addReviewRemoveReviewService.initializeReviewCards();
-    console.log('After initialization - addReviewCards:', this.addReviewRemoveReviewService.addReviewCards);
-    console.log('After initialization - removeReviewCards:', this.addReviewRemoveReviewService.removeReviewCards);
   }
 
   async addCardToUserReview() {
-    const addReviewCards = this.addReviewRemoveReviewService.getAddReviewCards;
+    let addReviewCards = this.addReviewRemoveReviewService.getAddReviewCards;
     addReviewCards.forEach(cardId => {
       // 'quiz' コレクションから 'id' が 'cardId' と一致するドキュメントをクエリ
       this.db.collection('quiz', ref => ref.where('id', '==', cardId)).get().subscribe(quizSnapshot => {
@@ -76,7 +74,7 @@ export class ResultComponent implements OnInit {
   }
 
   async removeCardFromUserReview() {
-    const removeReviewCards = this.addReviewRemoveReviewService.getRemoveReviewCards;
+    let removeReviewCards = this.addReviewRemoveReviewService.getRemoveReviewCards;
     removeReviewCards.forEach(cardId => {
       this.db.collection('user_review', ref => ref.where('id', '==', cardId)).get().subscribe(querySnapshot => {
         querySnapshot.forEach(doc => {

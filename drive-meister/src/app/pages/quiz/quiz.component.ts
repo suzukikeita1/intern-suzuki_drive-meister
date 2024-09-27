@@ -11,12 +11,12 @@ import {
   animate,
   state,
 } from '@angular/animations';
-import { RedirectResultButtonComponent } from '../redirect-result-button/redirect-result-button.component';
+import { RedirectResultButtonComponent } from '../../components/redirect-result-button/redirect-result-button.component';
 import { Card } from '../../types/card';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SwipeDirectionService } from '../../services/swipedirection.service';
-import { QuizIndexService } from '../../services/quiz-index.Service';
+import { QuizIndexService } from '../../services/quiz-index.service';
 import { ShuffleCardsService } from '../../services/shuffle-cards.service';
 import { QuizStateService } from '../../services/quiz-state.service';
 import { QuizCardService } from '../../services/quiz-card.service';
@@ -160,10 +160,6 @@ export class QuizComponent implements OnInit {
 
   changeAnimationState(direction: 'correct' | 'incorrect') {
     this.animationState = direction;
-    if (!this.directionChanged) {
-      this.animationState = direction;
-      this.directionChanged = true; // directionが変更されたことを記録
-    }
     this.swipeDirectionService.changeDirection(direction);
 
     setTimeout(() => {

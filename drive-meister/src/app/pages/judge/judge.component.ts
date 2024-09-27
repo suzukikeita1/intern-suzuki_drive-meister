@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { RedirectResultButtonComponent } from '../redirect-result-button/redirect-result-button.component';
+import { RedirectResultButtonComponent } from '../../components/redirect-result-button/redirect-result-button.component';
 import { Card } from '../../types/card';
 import { ActivatedRoute } from '@angular/router';
 import { HammerModule } from '@angular/platform-browser';
 import { SwipeDirectionService } from '../../services/swipedirection.service';
 import { JudgeAnswerService } from '../../services/judge-answer.service';
-import { QuizIndexService } from '../../services/quiz-index.Service';
+import { QuizIndexService } from '../../services/quiz-index.service';
 import { QuizStateService } from '../../services/quiz-state.service';
 import { AddReviewRemoveReviewService } from '../../services/add-review_remove-review.service';
 import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/compat/firestore';
@@ -117,7 +117,6 @@ export class JudgeComponent implements OnInit {
     } else if (diffY > swipeThreshold && this.type === 'work') {
       // 下スワイプ 
       this.addReviewRemoveReviewService.addCardToReview(this.cardData?.id);
-      console.log(this.addReviewRemoveReviewService.addReviewCards);
       this.changeAnimationState('review');
     } else if (diffY > swipeThreshold && this.type === 'review') {
       // 下スワイプで復習からはずす

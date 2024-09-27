@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { QuizComponent } from '../quiz/quiz.component';
+import { QuizComponent } from '../../pages/quiz/quiz.component';
 import { RouterModule } from '@angular/router';
 import {MatBadgeModule} from '@angular/material/badge';
 import { Card } from '../../types/card';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { QuizService } from '../../services/quiz.service';
 import { QuizCardService } from '../../services/quiz-card.service';
-import { ReviewCountService } from '../../services/review-count.Service';
+import { ReviewCountService } from '../../services/review-count.service';
 
 
 @Component({

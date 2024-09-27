@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { HomeComponent } from '../home/home.component';
-import { HomeCardComponent } from '../home-card/home-card.component';
-import { HomeHeaderComponent } from '../home-header/home-header.component';
-import { MyPageCloseComponent } from '../my-page-close/my-page-close.component';
-import { MyPageGuideComponent } from '../my-page-guide/my-page-guide.component';
-import { MyPageLoginLogoutComponent } from '../my-page-login-logout/my-page-login-logout.component';
+import { HomeCardComponent } from '../../components/home-card/home-card.component';
+import { HomeHeaderComponent } from '../../components/home-header/home-header.component';
+import { MyPageCloseComponent } from '../../components/my-page-close/my-page-close.component';
+import { MyPageGuideComponent } from '../../components/my-page-guide/my-page-guide.component';
+import { MyPageLoginLogoutComponent } from '../../components/my-page-login-logout/my-page-login-logout.component';
 import { LoginComponent } from '../login/login.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';

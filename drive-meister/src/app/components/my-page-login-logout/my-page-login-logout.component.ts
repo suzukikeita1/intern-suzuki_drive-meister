@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from '../../pages/home/home.component';
 import { HomeCardComponent } from '../home-card/home-card.component';
 import { HomeHeaderComponent } from '../home-header/home-header.component';
-import { LoginComponent } from '../login/login.component';
-import { RegisterComponent } from '../register/register.component';
+import { LoginComponent } from '../../pages/login/login.component';
+import { RegisterComponent } from '../../pages/register/register.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';

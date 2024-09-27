@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 })
 
 export class AddReviewRemoveReviewService {
-    addReviewCards: number[] = []; // レビューに追加したいカードデータ
-    removeReviewCards: number[] = []; // レビューから削除したいカードデータ
+    private addReviewCards: number[] = []; // レビューに追加したいカードデータ
+    private removeReviewCards: number[] = []; // レビューから削除したいカードデータ
 
     addCardToReview(cardId: number | undefined): void {
         if (cardId !== undefined && !this.addReviewCards.includes(cardId)) {

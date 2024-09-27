@@ -4,8 +4,8 @@ import { HomeComponent } from '../home/home.component';
 import { RouterModule } from '@angular/router';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { CommonModule } from '@angular/common';
-import { GuideContentComponent } from '../guide-content/guide-content.component';
-import { ReturnHomeButtonComponent } from '../return-home-button/return-home-button.component';
+import { GuideContentComponent } from '../../components/guide-content/guide-content.component';
+import { ReturnHomeButtonComponent } from '../../components/return-home-button/return-home-button.component';
 
 @Component({
   selector: 'app-guide',

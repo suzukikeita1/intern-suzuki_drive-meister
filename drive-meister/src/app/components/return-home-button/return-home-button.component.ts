@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from '../../pages/home/home.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { JudgeAnswerService } from '../../services/judge-answer.service';
@@ -19,10 +19,5 @@ export class ReturnHomeButtonComponent {
   // results配列を初期化するメソッド
   resetResults() {
     this.judgeAnswerService.results = [];
-  }
-
-  // addReviewCards配列を初期化するメソッド
-  resetAddReviewCards() {
-    this.addReviewRemoveReviewService.addReviewCards = [];
   }
 }

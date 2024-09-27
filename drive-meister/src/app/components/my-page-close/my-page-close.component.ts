@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from '../../pages/home/home.component';
 import { HomeCardComponent } from '../home-card/home-card.component';
 import { HomeHeaderComponent } from '../home-header/home-header.component';
 import { MatIconModule } from '@angular/material/icon';
