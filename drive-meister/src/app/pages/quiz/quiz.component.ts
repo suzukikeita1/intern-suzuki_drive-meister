@@ -152,7 +152,8 @@ export class QuizComponent implements OnInit {
     if (diffX > swipeThreshold) {
       // 右スワイプ
       this.changeAnimationState('correct');
-    } else if (diffX < -swipeThreshold) {
+    }
+    if (diffX < -swipeThreshold) {
       // 左スワイプ
       this.changeAnimationState('incorrect');
     }

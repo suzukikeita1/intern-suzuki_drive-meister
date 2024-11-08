@@ -4,13 +4,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { QuizComponent } from '../../pages/quiz/quiz.component';
 import { RouterModule } from '@angular/router';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
 import { Card } from '../../types/card';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { QuizService } from '../../services/quiz.service';
 import { QuizCardService } from '../../services/quiz-card.service';
-import { ReviewCountService } from '../../services/review-count.service';
-
+import { AuthService } from '../../services/auth.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home-card',
@@ -28,7 +30,7 @@ import { ReviewCountService } from '../../services/review-count.service';
   styleUrl: './home-card.component.scss',
 })
 export class HomeCardComponent implements OnInit {
-  constructor(private quizService: QuizService,private quizCardService: QuizCardService,private reviewCountService: ReviewCountService ) {}
+  constructor(private quizService: QuizService, private quizCardService: QuizCardService, private db: AngularFirestore, private fireauth: AngularFireAuth, private authService: AuthService ) {}
   cards: Card[] = [];
   reviewCards: Card[] = [];
   provisionalLicenseCount: number | undefined;
@@ -36,20 +38,27 @@ export class HomeCardComponent implements OnInit {
 
   @Input() cardType: string = '';
 
-  ngOnInit() {
-    this.quizService.getAllQuiz().subscribe((data) => {
+  async ngOnInit() {
+    (await this.quizService.getAllQuiz()).subscribe((data) => {
       this.cards = data;
       this.quizCardService.setQuizCards = this.cards;
     });
-    this.quizService.getAllReview().subscribe((data) => {
-      this.reviewCards = data;
-      this.quizCardService.setReviewQuizCards = this.reviewCards;
-    });
-    this.reviewCountService.getProvisionalLicenseCount().subscribe((data) => {
-      this.provisionalLicenseCount = data;
-    });
-    this.reviewCountService.getDriversLicenseCount().subscribe((data) => {
-      this.driversLicenseCount = data;
+    await this.authService.getUserId().then(async (userId) => {
+      if (userId) {
+        (await this.authService.getProvisionalLicenseCount()).subscribe((data) => {
+          this.provisionalLicenseCount = data;
+        });
+
+        (await this.authService.getDriversLicenseCount()).subscribe((data) => {
+          this.driversLicenseCount = data;
+        });
+
+      } else {
+        console.log('ユーザーIDを取得できませんでした');
+      }
+    }).catch((error) => {
+      console.error('ユーザーIDの取得中にエラーが発生しました', error);
     });
   }
+
 }

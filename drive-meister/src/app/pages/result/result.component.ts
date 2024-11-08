@@ -7,10 +7,12 @@ import { RedirectResultButtonComponent } from '../../components/redirect-result-
 import { JudgeAnswerService } from '../../services/judge-answer.service';
 import { AngularFirestore,AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AddReviewRemoveReviewService } from '../../services/add-review_remove-review.service';
-import { ReviewCountService } from '../../services/review-count.service';
 import { QuizCardService } from '../../services/quiz-card.service';
 import { QuizService } from '../../services/quiz.service';
 import { Card } from '../../types/card';
+import { AuthService } from '../../services/auth.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 
 
 @Component({
@@ -28,9 +30,18 @@ import { Card } from '../../types/card';
   styleUrl: './result.component.scss',
 })
 export class ResultComponent implements OnInit {
-  constructor(private judgeAnswerService: JudgeAnswerService, private db: AngularFirestore, private addReviewRemoveReviewService: AddReviewRemoveReviewService, private reviewCountService: ReviewCountService, private quizService: QuizService,private quizCardService: QuizCardService,) {}
+  constructor(
+    private judgeAnswerService: JudgeAnswerService, 
+    private db: AngularFirestore, 
+    private addReviewRemoveReviewService: AddReviewRemoveReviewService, 
+    private quizService: QuizService, 
+    private quizCardService: QuizCardService, 
+    private authService: AuthService, 
+    private fireauth: AngularFireAuth,
+  ) {}
   @Input() results: boolean[] = this.judgeAnswerService.results;
   reviewCards: Card[] = [];
+  userDocId: string  = '';
   provisionalLicenseCount: number | undefined;
   driversLicenseCount: number | undefined;
   
@@ -41,18 +52,55 @@ export class ResultComponent implements OnInit {
 
   async ngOnInit() {
     await this.addCardToUserReview();
-    console.log('After addCardToUserReview');
     await this.removeCardFromUserReview();
-    console.log('After removeCardFromUserReview');
     await this.onResetReviewCard();
-    console.log('After onResetReviewCard');
     await this.onResetCardCount();
-    console.log('After onResetCardCount');
     this.addReviewRemoveReviewService.initializeReviewCards();
   }
 
+  async isUserLoggedIn(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        const subscription = this.fireauth.authState.subscribe({
+          next: (user) => {
+            resolve(user !== null);
+          },
+          error: (error) => {
+            reject(`認証状態の取得中にエラーが発生しました: ${error}`);
+          },
+          complete: () => {
+            subscription.unsubscribe();
+          }
+        });
+      } catch (error) {
+        reject(`予期しないエラーが発生しました: ${error}`);
+      }
+    });
+  }
+
   async addCardToUserReview() {
-    let addReviewCards = this.addReviewRemoveReviewService.getAddReviewCards;
+    try {
+      const userID = await this.authService.getUserId();
+      if (!userID) {
+        console.log('ユーザーIDが取得できません');
+        return;
+      }
+      this.userDocId = userID;
+    } catch (error) {
+      return;
+    }
+
+    try {
+      if (!(await this.isUserLoggedIn())) {
+        console.log('ユーザーがログインしていません');
+        return;
+      }
+    } catch (error) {
+      return;
+    }
+
+    const addReviewCards = this.addReviewRemoveReviewService.getAddReviewCards;
+
     addReviewCards.forEach(cardId => {
       // 'quiz' コレクションから 'id' が 'cardId' と一致するドキュメントをクエリ
       this.db.collection('quiz', ref => ref.where('id', '==', cardId)).get().subscribe(quizSnapshot => {
@@ -61,10 +109,11 @@ export class ResultComponent implements OnInit {
           quizSnapshot.forEach(doc => {
             // 'user_review' コレクションから 'id' が 'cardId' と一致するドキュメントをクエリ
             const data = doc.data() as { id: number };
-            this.db.collection('user_review', ref => ref.where('id', '==', data.id)).get().subscribe(userReviewSnapshot => {
+            console.log(data);
+            this.db.collection('user').doc(this.userDocId).collection('user_review', ref => ref.where('id', '==', data.id)).get().subscribe(userReviewSnapshot => {
               if (userReviewSnapshot.empty) {
                 // 'user_review' コレクションに新しいドキュメントを追加
-                this.db.collection('user_review').add(doc.data());
+                this.db.collection('user').doc(this.userDocId).collection('user_review').add(data);
               }
             });
           });
@@ -76,7 +125,7 @@ export class ResultComponent implements OnInit {
   async removeCardFromUserReview() {
     let removeReviewCards = this.addReviewRemoveReviewService.getRemoveReviewCards;
     removeReviewCards.forEach(cardId => {
-      this.db.collection('user_review', ref => ref.where('id', '==', cardId)).get().subscribe(querySnapshot => {
+      this.db.collection('user').doc(this.userDocId).collection('user_review', ref => ref.where('id', '==', cardId)).get().subscribe(querySnapshot => {
         querySnapshot.forEach(doc => {
           doc.ref.delete();
         });
@@ -85,17 +134,17 @@ export class ResultComponent implements OnInit {
   }
 
   async onResetReviewCard() {
-    this.quizService.getAllReview().subscribe((data) => {
+    (await this.quizService.getAllReview()).subscribe((data) => {
       this.reviewCards = data;
       this.quizCardService.setReviewQuizCards = this.reviewCards;
     });
   }
 
   async onResetCardCount() {
-    this.reviewCountService.getProvisionalLicenseCount().subscribe(count => {
+    (await this.authService.getProvisionalLicenseCount()).subscribe(count => {
       this.provisionalLicenseCount = count;
     });
-    this.reviewCountService.getDriversLicenseCount().subscribe(count => {
+    (await this.authService.getDriversLicenseCount()).subscribe(count => {
       this.driversLicenseCount = count;
     });
   }

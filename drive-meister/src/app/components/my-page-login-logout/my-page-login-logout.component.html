@@ -1,13 +1,13 @@
 <div class="button_cover">
-    <button *ngIf="isButtonVisible" mat-flat-button class="login-button" routerLink="/my-page/login">
+    <button *ngIf="!isLogin" mat-flat-button class="login-button" routerLink="/my-page/login">
         <p class="button_text">ログイン</p>
     </button>
 
-    <button *ngIf="!isButtonVisible" mat-flat-button class="logout-button" routerLink="#">
+    <button *ngIf="isLogin" mat-flat-button class="logout-button" (click)="logout()">
         <p class="button_text">ログアウト</p>
     </button>
 
-    <button *ngIf="isButtonVisible" mat-flat-button class="register-button" routerLink="/my-page/register">
+    <button mat-flat-button class="register-button" routerLink="/my-page/register">
         <p class="button_text">新規登録</p>
     </button>
 </div>

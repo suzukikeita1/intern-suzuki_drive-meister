@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { HomeComponent } from '../home/home.component';
 import { HomeCardComponent } from '../../components/home-card/home-card.component';
@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-my-page',
@@ -32,4 +33,19 @@ import { RouterModule } from '@angular/router';
   templateUrl: './my-page.component.html',
   styleUrl: './my-page.component.scss',
 })
-export class MyPageComponent {}
+export class MyPageComponent implements OnInit {
+  currentUser: string | null | undefined = null;
+
+  constructor(private auth: AuthService) {}
+
+  ngOnInit(): void {
+    this.auth.getUser().subscribe((user) => {
+      if (user?.email){
+        this.currentUser = user?.email;
+      } else {
+        this.currentUser = 'マイページ';
+      }
+    });
+
+  }
+}

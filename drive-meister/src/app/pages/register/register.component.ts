@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyPageLoginLogoutComponent } from '../../components/my-page-login-logout/my-page-login-logout.component';
 import { ReturnHomeButtonComponent } from '../../components/return-home-button/return-home-button.component';
+import { DialogComponent } from '../../components/dialog/dialog.component';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -12,6 +13,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { merge } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +24,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-register',
   standalone: true,
   imports: [
+    DialogComponent,
     MyPageLoginLogoutComponent,
     ReturnHomeButtonComponent,
     MatButtonModule,
@@ -33,6 +36,7 @@ import { AuthService } from '../../services/auth.service';
     FormsModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatDialogModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -52,7 +56,7 @@ export class RegisterComponent {
   emailerrorMessage: string = '';
   passworderrorMessage: string = '';
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, public dialog: MatDialog) {
     merge(
       this.email.statusChanges,
       this.email.valueChanges,
@@ -65,6 +69,13 @@ export class RegisterComponent {
 
   register() {
     this.authService.register(this.email.value!, this.password.value!);
+    this.openDialog('register');
+  }
+
+  openDialog(type: 'login' | 'register') {
+    this.dialog.open(DialogComponent, {
+      data: { type },
+    });
   }
 
   updateErrorMessages() {

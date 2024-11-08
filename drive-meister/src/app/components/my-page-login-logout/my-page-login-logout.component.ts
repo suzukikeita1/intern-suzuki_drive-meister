@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { HomeComponent } from '../../pages/home/home.component';
 import { HomeCardComponent } from '../home-card/home-card.component';
@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-my-page-login-logout',
@@ -30,7 +31,26 @@ import { CommonModule } from '@angular/common';
   templateUrl: './my-page-login-logout.component.html',
   styleUrl: './my-page-login-logout.component.scss',
 })
-export class MyPageLoginLogoutComponent {
+export class MyPageLoginLogoutComponent implements OnInit {
   // ボタンの表示状態を管理するプロパティ
-  isButtonVisible = true;
+  isLogin:  boolean = false;
+
+  constructor(private auth: AuthService) {}
+
+  ngOnInit(): void {
+    // ユーザー情報を取得
+    this.auth.getUser().subscribe((user) => {
+      if (user) {
+        // ログイン中の場合
+        this.isLogin = true;
+      } else {
+        // ログアウト中の場合
+        this.isLogin = false;
+      }
+    });
+  }
+
+  logout() {
+    this.auth.logout();
+  }
 }
